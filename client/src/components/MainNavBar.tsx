@@ -30,7 +30,7 @@ import profileThin from "../assets/userDark.png";
 import Profile from "./pages/Profile";
 import Calendar from "./pages/Calendar";
 import MyPredictions from "./pages/MyPredictions";
-import NextEvent from "./pages/NextFight";
+import NextEvent from "./pages/NextEvent";
 
 export type CurrentUserContextType = {
   FirstName: string | null;
@@ -105,8 +105,8 @@ const NavBar = () => {
                         BLOG
                       </Nav.Link>
                       <NavDropdown title="MMAPREDICTIONS">
-                        <NavDropdown.Item as={Link} to={"/mma/nextfight"} onClick={() => setOffCanvasShow(false)}>
-                          NEXTFIGHT
+                        <NavDropdown.Item as={Link} to={"/mma/nextevent"} onClick={() => setOffCanvasShow(false)}>
+                          NEXTEVENT
                         </NavDropdown.Item>
                         <NavDropdown.Item as={Link} to={"/mma/mypredictions"} onClick={() => setOffCanvasShow(false)}> 
                           MYPREDICTIONS
@@ -143,7 +143,7 @@ const NavBar = () => {
                   path="/profile"
                   element={<Profile setCurrentUser={setCurrentUser} />}
                 />
-                <Route path="/mma/nextfight" element={<NextEvent />} />
+                <Route path="/mma/nextevent" element={<NextEvent />} />
                 <Route path="/mma/mypredictions" element={<MyPredictions />} />
                 <Route path="/mma/calendar" element={<Calendar />} />
                 <Route path="*" element={<NotFound />} />

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavItem, Stack } from "react-bootstrap";
+import { Button, NavItem, Stack } from "react-bootstrap";
 import { useContext } from "react";
 import { CurrentUserContext, CurrentUserContextType } from "../MainNavBar";
 
@@ -43,15 +43,9 @@ const Profile = ({ setCurrentUser }: ProfileProps) => {
 
         <p className="mx-auto">We appreciate your patience.</p>
 
-        <NavItem
-          className="mx-auto"
-          //type="submit"
-          onClick={() => logOutAccount()}
-          // as={Link}
-          // to={"/"}
-        >
-          LOGOUT
-        </NavItem>
+        <Button className="mx-auto mb-2"
+          variant="dark"
+          onClick={() => logOutAccount()}> LOGOUT</Button>
       </Stack>
     </>
   );

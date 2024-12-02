@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Button,
   Col,
   Form,
   FormGroup,
@@ -93,14 +94,25 @@ const Login = ({ setCurrentUser }: LoginProps) => {
             />
           </Form.Group>
           <Row>
-            <Col>
-              <Nav.Link onClick={(e) => loginAccountAsync(e)}>Login</Nav.Link>
-            </Col>
-            <Col>
-              <Nav.Link as={Link} to={"/create"}>
-                Create Account
-              </Nav.Link>
-            </Col>
+            <Button
+              variant="dark"
+              onClick={(e) => loginAccountAsync(e)}
+              className="bg-dark m-1 mx-auto"
+            >
+              Login
+            </Button>
+            {/* <Nav.Link className="bg-dark" as={Link} to={"/create"}>
+                <Button className="bg-dark">Create Account</Button>
+              </Nav.Link> */}
+          </Row>
+          <Row>
+            <Button
+              onClick={() => navigate("/create")}
+              variant="dark"
+              className="bg-dark m-1 mx-auto"
+            >
+              Create Account
+            </Button>
           </Row>
         </Form>
       </Stack>

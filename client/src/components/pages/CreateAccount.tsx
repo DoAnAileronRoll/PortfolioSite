@@ -1,5 +1,5 @@
-import React, {useState } from "react";
-import { Col, FormGroup, Nav, Row, Stack } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Col, FormGroup, Nav, Row, Stack } from "react-bootstrap";
 //import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 //import { Link, Routes } from "react-router";
@@ -18,7 +18,7 @@ const CreateAccount = () => {
   const submitNewAccount = async (e: React.MouseEvent) => {
     console.log("Attempting to Submit New Account");
     e.preventDefault();
-    
+
     const newAccount = {
       Email: email,
       Username: userName,
@@ -89,12 +89,21 @@ const CreateAccount = () => {
               </FormGroup>
             </Col>
           </Row>
-          
-          <Nav.Link className="mx-auto"
+
+          {/* <Nav.Link className="mx-auto"
             onClick={(e) => submitNewAccount(e)}
           >
             Submit
-          </Nav.Link>
+          </Nav.Link> */}
+          <Row>
+            <Button
+              onClick={(e) => submitNewAccount(e)}
+              variant="dark"
+              className="bg-dark mx-auto m-3"
+            >
+              Submit
+            </Button>
+          </Row>
         </Form>
         {errorToastShow && (
           <BasicToast

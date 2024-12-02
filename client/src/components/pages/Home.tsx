@@ -7,7 +7,7 @@ const Home = () => {
   const currentUser = useContext(CurrentUserContext);
   return (
     <>
-      <Stack>
+      <Stack className="h-75">
         <h1 className="mx-auto">HOME</h1>
         {currentUser.UserID === null ? (
           <p className="mx-auto">Welcome to THE SITE.</p>
@@ -15,7 +15,7 @@ const Home = () => {
           <p className="mx-auto">Welcome back {currentUser.FirstName}.</p>
         )}
         <p className="mx-auto">We are currently under construction. </p>
-        <p className="mx-auto">We appreciate your patience.</p>
+        <p className="min-vh-100 mx-auto">We appreciate your patience.</p>
       </Stack>
     </>
   );

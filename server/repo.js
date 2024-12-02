@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
+const { json } = require("express");
 dotenv.config();
 
 const pool = mysql
@@ -59,6 +60,7 @@ module.exports = {
       ]
     );
   },
+
   UserExistsAsync: async function (jsonBody) {
     console.log("CHECKING");
     const [result] = await pool.query(
@@ -75,6 +77,8 @@ module.exports = {
     // }
     return result[0]["count(*)"];
   },
+
+  //MMA STARTS HERE
   GetNextEvent: async function () {
     const [result] = await pool.query(`
             select * from Event
@@ -83,6 +87,51 @@ module.exports = {
             limit 1
         `);
     return result[0];
+  },
+  GetEventFights: async function (eventid) {
+    const [result] = await pool.query(
+      `
+          select * from Fight
+          where EventID = ?
+      `,
+      [eventid]
+    );
+    return result;
+  },
+  GetAllFights: async function () {
+    const [result] = await pool.query(
+      `
+          select * from Fight
+      `
+    );
+    return result;
+  },
+  GetFighter: async function (fighterid) {
+    const [result] = await pool.query(
+      `
+          select * from Fighter
+          where FighterID = ?
+      `,
+      [fighterid]
+    );
+    return result[0];
+  },
+
+  CreatePrediction: async (jsonBody) => {
+    const [result] = await pool.query(
+      `insert into Prediction (PredictedWinnerID, ConfidenceScore, 
+      CreatedByUserID, CreatedDate
+      , UpdatedDate, PredictionReasoning, PredictedLoser)
+      values ( ?, ?, ?, NOW(), NOW(), ?, ?)`,
+      [
+        jsonBody.PredictedWinnerID,
+        jsonBody.ConfidenceScore,
+        jsonBody.CreatedByUserID,
+        jsonBody.PredictionReasoning,
+        jsonBody.PredictedLoser,
+      ]
+    );
+    return result;
   },
 };
 

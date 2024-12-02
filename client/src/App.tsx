@@ -1,26 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import profileThin from './assets/profileThin.svg'
-import './App.css'
-import ListGroup from './components/ListGroup'
-import Alert from './components/Alert'
-import Button from './components/Button'
-import MainNavBar from './components/MainNavBar'
-import Home from './components/pages/Home'
+import { useState } from "react";
+import "./App.css";
+import MainNavBar from "./components/MainNavBar";
+import SiteFooter from "./components/Footer";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [alertActive, setAlertActive] = useState(false);
-  const items = ["new york", "chicago", "dc", "ur mom"];
+  // const [count, setCount] = useState(0)
+  // const [alertActive, setAlertActive] = useState(false);
+  // const items = ["new york", "chicago", "dc", "ur mom"];
 
-  const handleSelectItem = (item:string) => {
-    console.log (item)
-  }
+  // const handleSelectItem = (item:string) => {
+  //   console.log (item)
+  // }
 
   return (
     <>
-      <div><MainNavBar></MainNavBar></div>
+      <div>
+        <MainNavBar></MainNavBar>
+      </div>
+      <SiteFooter />
       {/* <Home></Home> */}
       {/* {alertActive && <Alert onClick={() => setAlertActive(false)} >Hello World</Alert>}
       <div>
@@ -55,7 +52,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
