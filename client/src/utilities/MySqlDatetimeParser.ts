@@ -8,13 +8,10 @@ export function DateTimeParser(datetime: string) {
   // // var t = datetime.split(/[- :]/);
   // var t = cleanedString.split(" ");
 
-  console.log(datetime)
+  const t = datetime.split(/[- :TZ]/);
 
-var t = datetime.split(/[- :TZ]/);
-
-  console.log(t);
   // Apply each element to the Date function
-  var d = new Date(
+  const d = new Date(
     Date.UTC(
       Number(t[0]),
       Number(t[1]) - 1,

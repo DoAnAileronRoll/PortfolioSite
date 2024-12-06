@@ -106,6 +106,15 @@ module.exports = {
     );
     return result;
   },
+  GetFight: async function (fightid) {
+    const [result] = await pool.query(
+      `
+          select * from Fight where FightID = ?
+      `, [fightid]
+    );
+    return result;
+  },
+
   GetFighter: async function (fighterid) {
     const [result] = await pool.query(
       `
@@ -117,18 +126,73 @@ module.exports = {
     return result[0];
   },
 
+  GetFighterBrief: async function (fighterID) {
+    const [result] = await pool.query(
+      `select * from FighterBrief
+          where FighterID = ?`,
+      [fighterID]
+    );
+    return result[0];
+  },
+
   CreatePrediction: async (jsonBody) => {
     const [result] = await pool.query(
       `insert into Prediction (PredictedWinnerID, ConfidenceScore, 
       CreatedByUserID, CreatedDate
-      , UpdatedDate, PredictionReasoning, PredictedLoser)
+      , UpdatedDate, PredictionReasoning, FightID)
       values ( ?, ?, ?, NOW(), NOW(), ?, ?)`,
       [
         jsonBody.PredictedWinnerID,
         jsonBody.ConfidenceScore,
         jsonBody.CreatedByUserID,
         jsonBody.PredictionReasoning,
-        jsonBody.PredictedLoser,
+        jsonBody.FightID,
+        //jsonBody.PredictedLoser,
+      ]
+    );
+    return result;
+  },
+  GetPrediction: async (predictionid) => {
+    const [result] = await pool.query(
+      `
+      select * from Prediction 
+      where PredictionID = ?
+      `,
+      [predictionid]
+    );
+    return result;
+  },
+
+  GetUserEventPredictions: async (eventid, userid) => {
+    const [result] = await pool.query(
+      `select p.PredictionID, p.PredictedWinnerID, p.ConfidenceScore
+      , p.CreatedByUserID, p.CreatedDate, p.UpdatedDate
+      , p.PredictionReasoning, p.FightID, f.FightID, u.UserID
+      , e.EventID from User u
+      inner join Prediction p on u.UserID = p.CreatedByUserID
+      inner join Fight f on f.FightID = p.FightID
+      inner join Event e on e.EventID = f.EventID
+      where
+      e.EventID = ?
+      and  u.UserID = ?`,
+      [eventid, userid]
+    );
+    return result;
+  },
+
+  UpdatePrediction: async (jsonBody, PredictionID) => {
+    const [result] = await pool.query(
+      `update Prediction
+      set PredictedWinnerID = ?
+      , ConfidenceScore = ?
+      , PredictionReasoning = ?
+      where PredictionID = ?`,
+      [
+        jsonBody.PredictedWinnerID,
+        jsonBody.ConfidenceScore,
+        jsonBody.PredictionReasoning,
+        PredictionID,
+        //jsonBody.PredictedLoser,
       ]
     );
     return result;

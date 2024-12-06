@@ -6,7 +6,7 @@ const cors = require("cors");
 app.use(
   cors({
     origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT"],
+    methods: ["GET", "POST", "PUT","PATCH"],
     allowedHeaders: [
       "Access-Control-Allow-Headers",
       "Origin",

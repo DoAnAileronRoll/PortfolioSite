@@ -1,16 +1,12 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Navbar from "react-bootstrap/Navbar";
 import {
-  Button,
   Container,
-  Dropdown,
   NavItem,
-  NavLink,
   Image,
 } from "react-bootstrap";
 //{navBarActive && <NavBar></NavBar>}
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import {
@@ -41,6 +37,7 @@ export type CurrentUserContextType = {
   UserID: number | null;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const CurrentUserContext = createContext<CurrentUserContextType>({
   FirstName: "",
   LastName: "",
@@ -52,7 +49,6 @@ export const CurrentUserContext = createContext<CurrentUserContextType>({
 
 const NavBar = () => {
   const [offCanvasShow, setOffCanvasShow] = useState(false);
-  const [showMMADropdown, setShowMMADropDown] = useState(false);
 
   const [currentUser, setCurrentUser] = useState<CurrentUserContextType>({
     FirstName: "",

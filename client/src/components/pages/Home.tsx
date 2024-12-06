@@ -1,5 +1,4 @@
-import React from "react";
-import { Container, Row, Stack } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
 import { useContext } from "react";
 import { CurrentUserContext } from "../MainNavBar";
 

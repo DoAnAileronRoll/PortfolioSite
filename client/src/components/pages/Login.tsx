@@ -1,22 +1,12 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  FormGroup,
-  Nav,
-  NavItem,
-  Row,
-  Stack,
-} from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, Form, Row, Stack } from "react-bootstrap";
 import BasicToast from "../BasicToast";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { CurrentUserContext, CurrentUserContextType } from "../MainNavBar";
 
 interface LoginProps {
-  setCurrentUser: React.Dispatch<React.SetStateAction<any>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUserContextType>>;
 }
 
 const Login = ({ setCurrentUser }: LoginProps) => {
@@ -49,7 +39,7 @@ const Login = ({ setCurrentUser }: LoginProps) => {
       if (result.status === 200) {
         console.log(currentUser);
 
-        var curUser: CurrentUserContextType = {
+        const curUser: CurrentUserContextType = {
           FirstName: resultJson.Body.FirstName,
           LastName: resultJson.Body.LastName,
           Email: resultJson.Body.Email,
@@ -99,11 +89,8 @@ const Login = ({ setCurrentUser }: LoginProps) => {
               onClick={(e) => loginAccountAsync(e)}
               className="bg-dark m-1 mx-auto"
             >
-              Login
+              <h5>Login</h5>
             </Button>
-            {/* <Nav.Link className="bg-dark" as={Link} to={"/create"}>
-                <Button className="bg-dark">Create Account</Button>
-              </Nav.Link> */}
           </Row>
           <Row>
             <Button
@@ -111,7 +98,7 @@ const Login = ({ setCurrentUser }: LoginProps) => {
               variant="dark"
               className="bg-dark m-1 mx-auto"
             >
-              Create Account
+              <h5>Create</h5>
             </Button>
           </Row>
         </Form>

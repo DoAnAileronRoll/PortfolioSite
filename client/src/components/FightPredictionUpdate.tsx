@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -44,16 +44,20 @@ interface FightPredictionProps {
   RedFighterID: number;
   BlueFighterID: number;
   ThisFight: FightInterface;
-  forceUpdate: number;
-  setForceUpdate: React.Dispatch<React.SetStateAction<number>>;
+  ConfidenceValue: number;
+  PredictionReasoning: string;
+  SelectedWinner: number;
+  PredictionID: number;
 }
 
 const FightPrediction = ({
   RedFighterID,
   BlueFighterID,
   ThisFight,
-  forceUpdate,
-  setForceUpdate
+  ConfidenceValue,
+  PredictionReasoning,
+  SelectedWinner,
+  PredictionID,
 }: FightPredictionProps) => {
   const currentUser = useContext(CurrentUserContext);
   const [redFighter, setRedFighter] = useState<Fighter>({
@@ -88,9 +92,11 @@ const FightPrediction = ({
     Nickname: "",
     Ranking: "",
   });
-  const [confidenceValue, setConfidenceValue] = useState("6");
-  const [reasoningText, setReasoningText] = useState("");
-  const [selectedWinner, setSelectedWinner] = useState(0);
+  const [confidenceValue, setConfidenceValue] = useState(
+    ConfidenceValue.toString()
+  );
+  const [reasoningText, setReasoningText] = useState(PredictionReasoning);
+  const [selectedWinner, setSelectedWinner] = useState(SelectedWinner);
   const [errorToastShow, setErrorToastShow] = useState(false);
   const [errorToastBodyText, setErrorToastBodyText] = useState(
     "There was an error."
@@ -161,7 +167,7 @@ const FightPrediction = ({
         getFighterBriefResult.FighterBrief.FighterBriefID;
       newFighterBrief.Pros = getFighterBriefResult.FighterBrief.Pros;
 
-      //console.log(newFighterBrief);
+      console.log(newFighterBrief);
       return newFighterBrief;
     }
   };
@@ -175,9 +181,11 @@ const FightPrediction = ({
 
     setRedFighterBrief(await setFighterBrief(RedFighter.FighterID));
     setBlueFighterBrief(await setFighterBrief(BlueFighter.FighterID));
+    console.log(RedFighterBrief);
+    console.log(BlueFighterBrief);
   };
 
-  const createPrediction = async () => {
+  const updatePrediction = async () => {
     if (selectedWinner === 0) {
       console.log("Error in prediction");
       setErrorToastBodyText(
@@ -186,8 +194,11 @@ const FightPrediction = ({
       setErrorToastShow(true);
       return;
     }
-    await fetch(`http://localhost:8080/mma/prediction/create`, {
-      method: "POST",
+
+    console.log(selectedWinner + " " + confidenceValue + " " + reasoningText);
+
+    await fetch(`http://localhost:8080/mma/prediction/update/${PredictionID}`, {
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -195,13 +206,9 @@ const FightPrediction = ({
       body: JSON.stringify({
         PredictedWinnerID: selectedWinner,
         ConfidenceScore: confidenceValue,
-        CreatedByUserID: currentUser.UserID,
         PredictionReasoning: reasoningText,
-        FightID: ThisFight.FightID,
       }),
     });
-
-    setForceUpdate(forceUpdate + 1)
   };
 
   useEffect(() => {
@@ -213,7 +220,7 @@ const FightPrediction = ({
   return (
     <>
       {redFighter === null && blueFighter === null && <p>No fighters found</p>}
-      <Container className="border rounded-4 pb-2 mb-2 " fluid>
+      <Container className="border rounded-4 pb-2 mb-2" fluid>
         <Row>
           <Col>
             <Row>
@@ -222,38 +229,35 @@ const FightPrediction = ({
               </Col>
 
               <Col className="d-flex flex-column justify-content-right" xs={1}>
-                {RedFighterBrief?.FighterID !== 0 && (
-                  <OverlayTrigger
-                    key={RedFighterID}
-                    trigger="click"
-                    placement={"bottom"}
-                    rootClose
-                    overlay={
-                      <Popover style={{ width: 500 }} id="popover-basic">
-                        <Popover.Header
-                          style={{ width: 500 , paddingBottom: 0}}
-                      
-                        >
-                          <h3>Some Thoughts</h3>
-                        </Popover.Header>
-                        <Popover.Body style={{ width: 500 }}>
-                          <p>
-                            <strong>Overview:</strong>{" "}
-                            {RedFighterBrief?.BriefText}
-                          </p>
-                          <p>
-                            <strong>Pros:</strong> {RedFighterBrief?.Pros}
-                          </p>
-                          <p>
-                            <strong>Cons:</strong> {RedFighterBrief?.Cons}
-                          </p>
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
-                    <Image className="my-auto mx-auto" src={infocircle} />
-                  </OverlayTrigger>
-                )}
+                  {RedFighterBrief?.FighterID !== 0 && (
+                    <OverlayTrigger
+                      key={RedFighterID}
+                      trigger="click"
+                      placement={"bottom"}
+                      rootClose
+                      overlay={
+                        <Popover style={{ width: 500 }} id="popover-basic">
+                          <Popover.Header style={{ width: 500, paddingBottom: 0}} as="h3">
+                            <h3>Some Thoughts</h3>
+                          </Popover.Header>
+                          <Popover.Body style={{ width: 500 }}>
+                            <p>
+                              <strong>Overview:</strong>{" "}
+                              {RedFighterBrief?.BriefText}
+                            </p>
+                            <p>
+                              <strong>Pros:</strong> {RedFighterBrief?.Pros}
+                            </p>
+                            <p>
+                              <strong>Cons:</strong> {RedFighterBrief?.Cons}
+                            </p>
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <Image className="my-auto mx-auto" src={infocircle} />
+                    </OverlayTrigger>
+                  )}
               </Col>
             </Row>
 
@@ -284,6 +288,7 @@ const FightPrediction = ({
             <Row>
               <Col className="d-flex flex-column justify-content-center" Col>
                 <Form.Check
+                  checked={selectedWinner === RedFighterID && true}
                   name={ThisFight.FightID.toString()}
                   label=""
                   type="radio"
@@ -299,24 +304,13 @@ const FightPrediction = ({
             <h4 style={{ textAlign: "center" }} className="pt-1">
               {ThisFight.WeightClass}
             </h4>
+
             <Form className="">
               <Row>
-                {/* <Col
-                  className="d-flex flex-column justify-content-center"
-                  Col
-                  xs={1}
-                >
-                  <Form.Check
-                    name={ThisFight.FightID.toString()}
-                    type="radio"
-                    className="my-auto"
-                    id={"1"}
-                    onChange={() => setSelectedWinner(redFighter.FighterID)}
-                  />
-                </Col> */}
-
                 <Col>
-                  <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Group
+                    controlId="exampleForm.ControlTextarea1"
+                  >
                     <Form.Control
                       onChange={(e) => setReasoningText(e.target.value)}
                       as="textarea"
@@ -325,32 +319,20 @@ const FightPrediction = ({
                     />
                   </Form.Group>
                 </Col>
-                {/* 
-                <Col className="d-flex flex-column" Col xs={1}>
-                  <Form.Check
-                    inline
-                    name={ThisFight.FightID.toString()}
-                    type="radio"
-                    className="my-auto"
-                    id={"2"}
-                    onChange={() => setSelectedWinner(blueFighter.FighterID)}
-                  />
-                </Col> */}
               </Row>
 
-              <Form.Label style={{ textAlign: "center" }} className="mx-auto my-auto">
-                <h3 className="my-auto">Confidence: {confidenceValue} </h3>
+              <Form.Label style={{ textAlign: "center" }} className="mx-auto my-auto ">
+                <h3 className="my-auto">Confidence: {confidenceValue}</h3>
               </Form.Label>
               <Form.Range
-                value={confidenceValue}
                 name="hello"
+                defaultValue={confidenceValue}
                 min={1}
                 max={10}
                 onChange={(e) => setConfidenceValue(e.target.value)}
                 className="custom-slider"
               />
-
-              <Row className="justify-content-center">
+              <Row className="justify-content-center " >
                 <Col className="d-flex flex-column nopadding" xs={3}>
                   <h4 className="my-auto">{ThisFight.RedOdds}</h4>
                 </Col>
@@ -359,7 +341,7 @@ const FightPrediction = ({
                     Odds
                   </h5>
                 </Col>
-                <Col className="d-flex flex-column nopadding" xs={3}>
+                <Col className="d-flex flex-column nopadding"  xs={3}>
                   <h4 style={{ textAlign: "right" }} className="my-auto">
                     {ThisFight.BlueOdds}
                   </h4>
@@ -369,22 +351,22 @@ const FightPrediction = ({
                 {currentUser.UserID !== null && (
                   <Button
                     className="bg-dark"
-                    onClick={() => createPrediction()}
+                    onClick={() => updatePrediction()}
                   >
-                    <h5>SUBMIT</h5>
+                    <h5>UPDATE</h5>
                   </Button>
                 )}
                 {currentUser.UserID === null && (
                   <Button className="bg-dark" disabled>
-                    <h5>SUBMIT</h5>
+                    <h5>UPDATE</h5>
                   </Button>
                 )}
               </Row>
             </Form>
           </Col>
-          <Col className="justify-content-right">
+          <Col>
             <Row>
-            <Col className="d-flex flex-column justify-content-left nopadding" xs={1}>
+              <Col className="d-flex flex-column justify-content-left nopadding" xs={1}>
                 {BlueFighterBrief?.FighterID !== 0 && (
                   <OverlayTrigger
                     key={BlueFighterID}
@@ -393,7 +375,7 @@ const FightPrediction = ({
                     rootClose
                     overlay={
                       <Popover style={{ width: 500 }} id="popover-basic">
-                        <Popover.Header style={{ width: 500 , paddingBottom: 0 }} as="h3">
+                        <Popover.Header style={{ width: 500 , paddingBottom: 0}}>
                           <h3>Some Thoughts</h3>
                         </Popover.Header>
                         <Popover.Body style={{ width: 500 }}>
@@ -453,6 +435,7 @@ const FightPrediction = ({
             <Row>
               <Col className="d-flex flex-column justify-content-right">
                 <Form.Check
+                  checked={selectedWinner === BlueFighterID && true}
                   name={ThisFight.FightID.toString()}
                   type="radio"
                   reverse

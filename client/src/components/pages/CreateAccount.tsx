@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Button, Col, FormGroup, Nav, Row, Stack } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  FormGroup,
+  Row,
+} from "react-bootstrap";
 //import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 //import { Link, Routes } from "react-router";
@@ -45,11 +51,13 @@ const CreateAccount = () => {
 
   return (
     <>
-      <Stack>
-        <h1 className="mx-auto">CREATE ACCOUNT</h1>
-        <p className="mx-auto">Gain access to THE SITE functions.</p>
-        <p className="mx-auto">More added every FIGHTNIGHT.</p>
-        <p className="mx-auto">We appreciate your patience.</p>
+      <Container fluid>
+        <Col className="d-flex flex-column justify-content-center">
+          <h1 className="mx-auto">CREATE ACCOUNT</h1>
+          <p className="mx-auto">Gain access to THE SITE functions.</p>
+          <p className="mx-auto">More added every FIGHTNIGHT.</p>
+          <p className="mx-auto">We appreciate your patience.</p>
+        </Col>
 
         <Form className="mx-auto">
           <Form.Group className="mb-3  " controlId="formBasicEmail">
@@ -89,19 +97,13 @@ const CreateAccount = () => {
               </FormGroup>
             </Col>
           </Row>
-
-          {/* <Nav.Link className="mx-auto"
-            onClick={(e) => submitNewAccount(e)}
-          >
-            Submit
-          </Nav.Link> */}
           <Row>
             <Button
               onClick={(e) => submitNewAccount(e)}
               variant="dark"
               className="bg-dark mx-auto m-3"
             >
-              Submit
+              <h5>Submit</h5>
             </Button>
           </Row>
         </Form>
@@ -112,7 +114,7 @@ const CreateAccount = () => {
             titleText="USER ERROR"
           />
         )}
-      </Stack>
+      </Container>
     </>
   );
 };

@@ -1,12 +1,12 @@
 import React from "react";
-import { Button, NavItem, Stack } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 import { useContext } from "react";
 import { CurrentUserContext, CurrentUserContextType } from "../MainNavBar";
 
 import { useNavigate } from "react-router-dom";
 
 interface ProfileProps {
-  setCurrentUser: React.Dispatch<React.SetStateAction<any>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUserContextType>>;
 }
 
 const Profile = ({ setCurrentUser }: ProfileProps) => {
@@ -14,7 +14,7 @@ const Profile = ({ setCurrentUser }: ProfileProps) => {
   const currentUser = useContext(CurrentUserContext);
 
   const logOutAccount = () => {
-    var loggedOutUser: CurrentUserContextType = {
+    const loggedOutUser: CurrentUserContextType = {
       FirstName: null,
       LastName: null,
       Email: null,
@@ -45,7 +45,8 @@ const Profile = ({ setCurrentUser }: ProfileProps) => {
 
         <Button className="mx-auto mb-2"
           variant="dark"
-          onClick={() => logOutAccount()}> LOGOUT</Button>
+          onClick={() => logOutAccount()}> 
+          <h5>LOGOUT</h5></Button>
       </Stack>
     </>
   );
