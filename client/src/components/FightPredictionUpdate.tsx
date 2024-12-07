@@ -9,12 +9,12 @@ import {
   OverlayTrigger,
   Popover,
 } from "react-bootstrap";
-import { FightInterface } from "./pages/NextEvent";
+import { FightInterface } from "./pages/NextEvent.js";
 import { useContext } from "react";
-import { CurrentUserContext } from "./MainNavBar";
+import { CurrentUserContext } from "./MainNavBar.js";
 import infocircle from "../assets/infocircle.svg";
 import "../assets/custom.css";
-import BasicToast from "./BasicToast";
+import BasicToast from "./BasicToast.js";
 
 interface Fighter {
   FighterID: number;

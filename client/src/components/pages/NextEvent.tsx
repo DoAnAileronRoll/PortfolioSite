@@ -1,9 +1,9 @@
 import  { useEffect, useState, useContext } from "react";
 import { Button, Col, Stack } from "react-bootstrap";
-import { DateTimeParser } from "../../utilities/MySqlDatetimeParser";
-import FightPrediction from "../FightPrediction";
-import { CurrentUserContext } from "../MainNavBar";
-import FightPredictionUpdate from "../FightPredictionUpdate";
+import { DateTimeParser } from "../../utilities/MySqlDatetimeParser.js";
+import FightPrediction from "../FightPrediction.js";
+import { CurrentUserContext } from "../MainNavBar.js";
+import FightPredictionUpdate from "../FightPredictionUpdate.js";
 
 export type NextEventInfoType = {
   EventID: number | null;

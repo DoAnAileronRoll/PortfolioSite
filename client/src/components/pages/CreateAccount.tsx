@@ -10,7 +10,7 @@ import {
 import Form from "react-bootstrap/Form";
 //import { Link, Routes } from "react-router";
 import { useNavigate } from "react-router-dom";
-import BasicToast from "../BasicToast";
+import BasicToast from "../BasicToast.js";
 
 const CreateAccount = () => {
   const [userName, setUserName] = useState("");

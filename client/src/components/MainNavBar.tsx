@@ -16,17 +16,17 @@ import {
   Outlet,
   Route,
 } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Login from "./pages/Login";
-import Blog from "./pages/Blog";
-import { NotFound } from "./pages/NotFound";
-import CreateAccount from "./pages/CreateAccount";
+import Home from "./pages/Home.js";
+import About from "./pages/About.js";
+import Login from "./pages/Login.js";
+import Blog from "./pages/Blog.js";
+import { NotFound } from "./pages/NotFound.js";
+import CreateAccount from "./pages/CreateAccount.js";
 import profileThin from "../assets/userDark.png";
-import Profile from "./pages/Profile";
-import Calendar from "./pages/Calendar";
-import MyPredictions from "./pages/MyPredictions";
-import NextEvent from "./pages/NextEvent";
+import Profile from "./pages/Profile.js";
+import Calendar from "./pages/Calendar.js";
+import MyPredictions from "./pages/MyPredictions.js";
+import NextEvent from "./pages/NextEvent.js";
 
 export type CurrentUserContextType = {
   FirstName: string | null;

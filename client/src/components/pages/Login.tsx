@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Form, Row, Stack } from "react-bootstrap";
-import BasicToast from "../BasicToast";
+import BasicToast from "../BasicToast.js";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { CurrentUserContext, CurrentUserContextType } from "../MainNavBar";
+import { CurrentUserContext, CurrentUserContextType } from "../MainNavBar.js";
 
 interface LoginProps {
   setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUserContextType>>;

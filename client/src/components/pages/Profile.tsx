@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Stack } from "react-bootstrap";
 import { useContext } from "react";
-import { CurrentUserContext, CurrentUserContextType } from "../MainNavBar";
+import { CurrentUserContext, CurrentUserContextType } from "../MainNavBar.js";
 
 import { useNavigate } from "react-router-dom";
 
