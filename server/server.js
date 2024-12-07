@@ -5,7 +5,7 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://pfsite3"],
     methods: ["GET", "POST", "PUT","PATCH"],
     allowedHeaders: [
       "Access-Control-Allow-Headers",
