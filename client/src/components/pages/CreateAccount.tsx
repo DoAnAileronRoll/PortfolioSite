@@ -32,7 +32,7 @@ const CreateAccount = () => {
       LastName: lastName,
     };
 
-    const result = await fetch("http://localhost:8080/user/create", {
+    const result = await fetch("http://mmawebsiteapi:8080/user/create", {
       method: "POST",
       headers: {
         Accept: "application/json",

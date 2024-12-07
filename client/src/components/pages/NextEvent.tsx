@@ -47,7 +47,6 @@ interface PredictedFightInterface {
 }
 
 const NextEvent = () => {
-  const [forceUpdate, setForceUpdate] = useState(0);
   const [nextEventInfo, setNextEventInfo] = useState<NextEventInfoType>({
     EventID: null,
     Name: null,
@@ -68,7 +67,7 @@ const NextEvent = () => {
 
   const getNextEvent = async () => {
     const nextEventRequest = await fetch(
-      "http://localhost:8080/mma/nextevent",
+      "http://mmawebsiteapi:8080/mma/nextevent",
       {
         method: "GET",
         headers: {
@@ -92,7 +91,7 @@ const NextEvent = () => {
     setEventDate(eventDate);
 
     const eventFightsRequest = await fetch(
-      `http://localhost:8080/mma/event/fights/${event.EventID}`,
+      `http://mmawebsiteapi:8080/mma/event/fights/${event.EventID}`,
       {
         method: "GET",
         headers: {
@@ -120,7 +119,7 @@ const NextEvent = () => {
     );
 
     const userEventPredictionsRequest = await fetch(
-      `http://localhost:8080/mma/event/${nextEventInfo.EventID}}/predictions/${currentUser.UserID}`,
+      `http://mmawebsiteapi:8080/mma/event/${nextEventInfo.EventID}}/predictions/${currentUser.UserID}`,
       {
         method: "GET",
         headers: {
@@ -151,6 +150,14 @@ const NextEvent = () => {
         unpredictedFights.push(fight);
       }
     });
+    console.log(predictedFightArr)
+    console.log(unpredictedFightArr)
+
+
+    console.log("predicted")
+    console.log(predictedFights)
+    console.log("unpredicted")
+    console.log(unpredictedFights)
 
     setPredictedFightArr(predictedFights);
     setUnpredictedFightArr(unpredictedFights);
@@ -158,13 +165,12 @@ const NextEvent = () => {
 
   useEffect(() => {
     getNextEvent();
-    // do stuff here...
   }, []); //
 
   useEffect(() => {
     getPredictionsAsync();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nextEventInfo, forceUpdate]);
+  }, [nextEventInfo, unpredictedFightArr]);
 
   return (
     <>
@@ -182,15 +188,15 @@ const NextEvent = () => {
         {unpredictedFightArr.length === 0 && (
           <h1 className="mx-auto">No Fights to Predict</h1>
         )}
-        {unpredictedFightArr.map((_item, index) => (
+        {unpredictedFightArr.map((fight) => (
             <Col style={{marginLeft: 8, marginRight: 8}}>
               <FightPrediction
-                ThisFight={unpredictedFightArr[index]}
-                key={index}
-                RedFighterID={unpredictedFightArr[index].RedFighterID}
-                BlueFighterID={unpredictedFightArr[index].BlueFighterID}
-                setForceUpdate={setForceUpdate}
-                forceUpdate={forceUpdate}
+              setUnpredictedFights={setUnpredictedFightArr}
+              unpredictedFights={unpredictedFightArr}
+                ThisFight={fight}
+                key={fight.FightID}
+                RedFighterID={fight.RedFighterID}
+                BlueFighterID={fight.BlueFighterID}
               />
             </Col>
         ))}
@@ -199,17 +205,17 @@ const NextEvent = () => {
         {predictedFightArr.length === 0 && (
           <h1 className="mx-auto">No Predictions Found</h1>
         )}
-        {predictedFightArr.map((item, index) => (
+        {predictedFightArr.map((fight) => (
             <Col style={{marginLeft: 8, marginRight: 8}}>
               <FightPredictionUpdate
-                BlueFighterID={item.Fight.BlueFighterID}
-                ConfidenceValue={item.Prediction.ConfidenceScore}
-                PredictionReasoning={item.Prediction.PredictionReasoning}
-                RedFighterID={item.Fight.RedFighterID}
-                SelectedWinner={item.Prediction.PredictedWinnerID}
-                ThisFight={item.Fight}
-                key={index}
-                PredictionID={item.Prediction.PredictionID}
+                BlueFighterID={fight.Fight.BlueFighterID}
+                ConfidenceValue={fight.Prediction.ConfidenceScore}
+                PredictionReasoning={fight.Prediction.PredictionReasoning}
+                RedFighterID={fight.Fight.RedFighterID}
+                SelectedWinner={fight.Prediction.PredictedWinnerID}
+                ThisFight={fight.Fight}
+                key={fight.Fight.FightID}
+                PredictionID={fight.Prediction.PredictionID}
               />
             </Col>
         ))}

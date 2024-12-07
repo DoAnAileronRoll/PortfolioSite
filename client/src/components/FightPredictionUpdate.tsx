@@ -107,7 +107,7 @@ const FightPrediction = ({
 
   const getFighterAsync = async (FighterID: number) => {
     const getFighterRequest = await fetch(
-      `http://localhost:8080/mma/fighter/${FighterID}`,
+      `http://mmawebsiteapi:8080/mma/fighter/${FighterID}`,
       {
         method: "GET",
         headers: {
@@ -139,7 +139,7 @@ const FightPrediction = ({
 
   const setFighterBrief = async (FighterID: number) => {
     const getFighterBriefRequest = await fetch(
-      `http://localhost:8080/mma/fighter/brief/${FighterID}`,
+      `http://mmawebsiteapi:8080/mma/fighter/brief/${FighterID}`,
       {
         method: "GET",
         headers: {
@@ -167,7 +167,7 @@ const FightPrediction = ({
         getFighterBriefResult.FighterBrief.FighterBriefID;
       newFighterBrief.Pros = getFighterBriefResult.FighterBrief.Pros;
 
-      console.log(newFighterBrief);
+      //console.log(newFighterBrief);
       return newFighterBrief;
     }
   };
@@ -181,13 +181,13 @@ const FightPrediction = ({
 
     setRedFighterBrief(await setFighterBrief(RedFighter.FighterID));
     setBlueFighterBrief(await setFighterBrief(BlueFighter.FighterID));
-    console.log(RedFighterBrief);
-    console.log(BlueFighterBrief);
+    //console.log(RedFighterBrief);
+    //console.log(BlueFighterBrief);
   };
 
   const updatePrediction = async () => {
     if (selectedWinner === 0) {
-      console.log("Error in prediction");
+      //console.log("Error in prediction");
       setErrorToastBodyText(
         "You did not provide a selected winner. Try again."
       );
@@ -197,7 +197,7 @@ const FightPrediction = ({
 
     console.log(selectedWinner + " " + confidenceValue + " " + reasoningText);
 
-    await fetch(`http://localhost:8080/mma/prediction/update/${PredictionID}`, {
+    await fetch(`http://mmawebsiteapi:8080/mma/prediction/update/${PredictionID}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -314,7 +314,7 @@ const FightPrediction = ({
                     <Form.Control
                       onChange={(e) => setReasoningText(e.target.value)}
                       as="textarea"
-                      placeholder="Prediction reasoning"
+                      value={reasoningText}
                       rows={3}
                     />
                   </Form.Group>

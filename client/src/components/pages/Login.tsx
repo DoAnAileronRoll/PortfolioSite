@@ -25,7 +25,7 @@ const Login = ({ setCurrentUser }: LoginProps) => {
         Username: userName,
       };
 
-      const result = await fetch("http://localhost:8080/user/login", {
+      const result = await fetch("http://mmawebsiteapi:8080/user/login", {
         method: "POST",
         headers: {
           Accept: "application/json",

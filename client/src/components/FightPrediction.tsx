@@ -44,16 +44,16 @@ interface FightPredictionProps {
   RedFighterID: number;
   BlueFighterID: number;
   ThisFight: FightInterface;
-  forceUpdate: number;
-  setForceUpdate: React.Dispatch<React.SetStateAction<number>>;
+  unpredictedFights: FightInterface[];
+  setUnpredictedFights: React.Dispatch<React.SetStateAction<FightInterface[]>>;
 }
 
 const FightPrediction = ({
   RedFighterID,
   BlueFighterID,
   ThisFight,
-  forceUpdate,
-  setForceUpdate
+  unpredictedFights,
+  setUnpredictedFights
 }: FightPredictionProps) => {
   const currentUser = useContext(CurrentUserContext);
   const [redFighter, setRedFighter] = useState<Fighter>({
@@ -101,7 +101,7 @@ const FightPrediction = ({
 
   const getFighterAsync = async (FighterID: number) => {
     const getFighterRequest = await fetch(
-      `http://localhost:8080/mma/fighter/${FighterID}`,
+      `http://mmawebsiteapi:8080/mma/fighter/${FighterID}`,
       {
         method: "GET",
         headers: {
@@ -133,7 +133,7 @@ const FightPrediction = ({
 
   const setFighterBrief = async (FighterID: number) => {
     const getFighterBriefRequest = await fetch(
-      `http://localhost:8080/mma/fighter/brief/${FighterID}`,
+      `http://mmawebsiteapi:8080/mma/fighter/brief/${FighterID}`,
       {
         method: "GET",
         headers: {
@@ -186,7 +186,7 @@ const FightPrediction = ({
       setErrorToastShow(true);
       return;
     }
-    await fetch(`http://localhost:8080/mma/prediction/create`, {
+    await fetch(`http://mmawebsiteapi:8080/mma/prediction/create`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -200,8 +200,18 @@ const FightPrediction = ({
         FightID: ThisFight.FightID,
       }),
     });
+    // const newVal = forceUpdate*2;
+    // setForceUpdate(newVal + 1)
+    //console.log(newVal)
+    setFightersAsync()
+    let newUnpredictedFights = unpredictedFights.slice();
+    console.log(unpredictedFights)
+    
+    console.log("RERENDERTRY")
+    newUnpredictedFights = newUnpredictedFights.filter(fight => fight.FightID !== ThisFight.FightID)
+    console.log(newUnpredictedFights)
+    setUnpredictedFights(newUnpredictedFights)
 
-    setForceUpdate(forceUpdate + 1)
   };
 
   useEffect(() => {
